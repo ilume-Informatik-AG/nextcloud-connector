@@ -1,0 +1,17 @@
+{
+  "authentication": {
+    "type": "basic",
+    "url": "http://localhost:9000",
+    "user": "testuser",
+    "password": "testpassword"
+  },
+  "actionDiscriminator": "listingFolders",
+  "action": {
+    "path": "/documents",
+    "depth": 1,
+    "metadataSelection": "custom",
+    "additionalProperties": {
+      "oc": "fileid"
+    }
+  }
+}

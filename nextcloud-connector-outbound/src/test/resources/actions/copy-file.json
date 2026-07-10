@@ -1,0 +1,14 @@
+{
+  "authentication": {
+    "type": "basic",
+    "url": "http://localhost:9000",
+    "user": "testuser",
+    "password": "testpassword"
+  },
+  "actionDiscriminator": "copyFile",
+  "action": {
+    "fileName": "report.pdf",
+    "sourcePath": "/documents/source",
+    "targetPath": "/documents/target"
+  }
+}

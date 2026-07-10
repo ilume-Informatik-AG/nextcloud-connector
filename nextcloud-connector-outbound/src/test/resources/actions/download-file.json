@@ -1,0 +1,13 @@
+{
+  "authentication": {
+    "type": "basic",
+    "url": "http://localhost:9000",
+    "user": "testuser",
+    "password": "testpassword"
+  },
+  "actionDiscriminator": "downloadFile",
+  "action": {
+    "path": "/documents",
+    "fileName": "report.pdf"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "authentication": {
+    "type": "basic",
+    "url": "http://localhost:9000",
+    "user": "testuser",
+    "password": "testpassword"
+  },
+  "actionDiscriminator": "createNewShare",
+  "action": {
+    "path": "/documents/report.pdf",
+    "shareType": "USER",
+    "shareWith": "jdoe",
+    "publicUpload": false,
+    "permissions": "READ"
+  }
+}

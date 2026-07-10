@@ -1,0 +1,17 @@
+{
+  "authentication": {
+    "type": "basic",
+    "url": "http://localhost:9000",
+    "user": "testuser",
+    "password": "testpassword"
+  },
+  "actionDiscriminator": "createNewShare",
+  "action": {
+    "path": "/documents/report.pdf",
+    "shareType": "PUBLIC_LINK",
+    "sharePassword": "Sup3rSecret!",
+    "permissions": "READ",
+    "expireDate": "2026-12-31",
+    "publicUpload": true
+  }
+}
