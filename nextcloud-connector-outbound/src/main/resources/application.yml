@@ -1,0 +1,33 @@
+# Base configuration for standalone mode only (RuntimeApplication as a Spring Boot app).
+#
+# When this connector is mounted into an existing shared Camunda Connector Runtime instead, no
+# Spring context is started for this jar, so this file is never read there - the host runtime has
+# its own application.yml. Everything the connector needs to function outside of a Spring context
+# (Nextcloud WebDAV/OCS paths, the download/upload file size limit) is read directly via plain
+# System.getProperty/getenv in AppConfig, not from Spring config - it is NOT tunable from this
+# file. Set it via -Dcamunda.server.files.max-size=<bytes> or the CAMUNDA_SERVER_FILES_MAX_SIZE
+# env var instead, in either mode.
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 9898
+
+camunda:
+  client:
+    auth:
+      method: none
+    grpc-address: http://localhost:26500
+    rest-address: http://localhost:8080
+  connector:
+    secret-provider:
+      console:
+        enabled: false
+      environment:
+        prefix: SECRETS_
+# Note: there is no camunda.connector.polling.enabled switch in 8.9.5 - the job worker starts
+# polling as soon as the Spring context comes up, regardless of profile/config (verified
+# empirically; the key existed in an older connector SDK version this was ported from). Without a
+# reachable Zeebe gateway you'll just see harmless "Connection refused" retries in the logs.

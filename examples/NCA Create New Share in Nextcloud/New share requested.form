@@ -1,0 +1,66 @@
+{
+  "components": [
+    {
+      "text": "### Create New Public Share",
+      "type": "text",
+      "id": "Heading_share",
+      "level": "2",
+      "layout": {
+        "row": "row_4",
+        "col": 16
+      }
+    },
+    {
+      "label": "Path",
+      "type": "textfield",
+      "id": "Field_path",
+      "key": "path",
+      "description": "Path to the file or folder you want to share",
+      "validate": {
+        "required": true
+      },
+      "layout": {
+        "row": "row_5",
+        "col": 16
+      }
+    },
+    {
+      "label": "Password (for public link)",
+      "type": "textfield",
+      "id": "Field_publicLinkPassword",
+      "key": "publicLinkPassword",
+      "subtype": "password",
+      "layout": {
+        "row": "row_9",
+        "col": 16
+      },
+      "validate": {
+        "pattern": "^$|^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d@$!%*?&-_#+.,;:()={}]{10,}$",
+        "patternErrorMessage": "Password must be at least 10 characters long and include: 1 uppercase, 1 lowercase, and 1 number.",
+        "required": false
+      }
+    },
+    {
+      "subtype": "date",
+      "type": "datetime",
+      "id": "Field_expirationDate",
+      "key": "expirationDate",
+      "dateLabel": "Expiration Date",
+      "description": "Format: 'YYYY-MM-DD'",
+      "layout": {
+        "row": "row_10",
+        "col": 16
+      }
+    }
+  ],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.47.0"
+  },
+  "schemaVersion": 19,
+  "id": "Form_NCA_NewShareRequestedForm",
+  "generated": true,
+  "type": "default"
+}

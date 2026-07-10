@@ -1,0 +1,19 @@
+# Local dev profile for running the connector standalone (Spring Boot RuntimeApplication)
+# against Camunda's lightweight local runtime ("c8run", no auth) and the local Nextcloud
+# instance started via the repo-root docker-compose.yaml.
+#
+# Activate with: mvn -pl nextcloud-connector-outbound spring-boot:run -Dspring-boot.run.profiles=c8run
+
+# Demo secrets matching the local Nextcloud docker-compose defaults and the example BPMN
+# processes under examples/ (which reference secrets.NCA_NEXTCLOUD_APP_*). Override for a
+# non-demo target instead of editing this file.
+SECRETS_NCA_NEXTCLOUD_APP_URL: http://localhost:9000
+SECRETS_NCA_NEXTCLOUD_APP_USER: demo
+SECRETS_NCA_NEXTCLOUD_APP_PASSWORD: demo
+
+camunda:
+  client:
+    auth:
+      method: none
+    grpc-address: http://localhost:26500
+    rest-address: http://localhost:8080

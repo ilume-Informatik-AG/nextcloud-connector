@@ -1,0 +1,41 @@
+name: nextcloud-connector-dev
+
+# Spins up a local Nextcloud instance to develop/test the connector against.
+# Usage: cp .env.example .env && docker compose up -d
+#
+# Then run the outbound connector standalone against it, e.g.:
+#   mvn -pl nextcloud-connector-outbound spring-boot:run -Dspring-boot.run.profiles=c8run
+services:
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-nextcloud}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  app:
+    image: nextcloud
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "${NEXTCLOUD_PORT:-9000}:80"
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=${DB_PASSWORD:-nextcloud}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+      - NEXTCLOUD_ADMIN_USER=${NC_ADMIN:-demo}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NC_PASS:-demo}
+      - NC_allow_local_remote_servers=true
+
+volumes:
+  nextcloud:
+  db:

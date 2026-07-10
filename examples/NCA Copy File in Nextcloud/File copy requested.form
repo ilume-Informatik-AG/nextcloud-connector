@@ -1,0 +1,63 @@
+{
+  "components": [
+    {
+      "text": "# Copy File in Nextcloud",
+      "type": "text",
+      "layout": {
+        "row": "Row_0v0kv6u",
+        "columns": null
+      },
+      "id": "Field_09hbj50"
+    },
+    {
+      "label": "File Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0cfpgxr",
+        "columns": null
+      },
+      "id": "Field_1pdt5ol",
+      "key": "fileName",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Source Path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0uj4nec",
+        "columns": null
+      },
+      "id": "Field_0g3f9vd",
+      "key": "sourcePath",
+      "defaultValue": "/",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Target Path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0dmyp4s",
+        "columns": null
+      },
+      "id": "Field_1ij1bvc",
+      "key": "targetPath",
+      "defaultValue": "/",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_NCA_NextcloudFileCopyForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.47.0"
+  },
+  "schemaVersion": 19
+}

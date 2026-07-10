@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.ilume</groupId>
+        <artifactId>nextcloud-connector</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>nextcloud-connector-inbound</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>element-template-generator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.lookfirst</groupId>
+            <artifactId>sardine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>spring-boot-starter-camunda-connectors</artifactId>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-runtime-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.camunda.connector</groupId>
+                <artifactId>element-template-generator-maven-plugin</artifactId>
+                <configuration>
+                    <connectors>
+                        <connector>
+                            <connectorClass>de.ilume.nextcloud.inbound.NextcloudWebhookConnector</connectorClass>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>de.ilume.nextcloud.inbound.RuntimeApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

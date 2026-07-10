@@ -1,0 +1,52 @@
+{
+  "components": [
+    {
+      "text": "# New Move File Request",
+      "type": "text",
+      "layout": {
+        "row": "Row_0907uoy",
+        "columns": null
+      },
+      "id": "Field_12zb70j"
+    },
+    {
+      "label": "File Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0vuragx",
+        "columns": null
+      },
+      "id": "Field_1620dt9",
+      "key": "fileName"
+    },
+    {
+      "label": "Source Path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_053y487",
+        "columns": null
+      },
+      "id": "Field_0spm573",
+      "key": "sourcePath"
+    },
+    {
+      "label": "Target Path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_04mhcaq",
+        "columns": null
+      },
+      "id": "Field_1f4n1wq",
+      "key": "targetPath"
+    }
+  ],
+  "type": "default",
+  "id": "Form_NCA_MoveFileForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.47.0"
+  },
+  "schemaVersion": 19
+}

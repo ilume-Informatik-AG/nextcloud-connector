@@ -1,0 +1,49 @@
+{
+  "components": [
+    {
+      "text": "# Request File Download",
+      "type": "text",
+      "layout": {
+        "row": "Row_1fkbads",
+        "columns": null
+      },
+      "id": "Field_106zrqq"
+    },
+    {
+      "label": "Target Path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1klp6tf",
+        "columns": null
+      },
+      "id": "Field_1fifeed",
+      "key": "targetPath",
+      "validate": {
+        "required": true
+      },
+      "defaultValue": "/"
+    },
+    {
+      "label": "File Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0bwwhi6",
+        "columns": null
+      },
+      "id": "Field_01obnj4",
+      "key": "fileName",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_NCA_NextcloudFileDownloadForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.47.0"
+  },
+  "schemaVersion": 19
+}

@@ -1,0 +1,50 @@
+{
+  "components": [
+    {
+      "text": "# Upload file to Nextcloud",
+      "type": "text",
+      "layout": {
+        "row": "Row_062e0ir",
+        "columns": null
+      },
+      "id": "Field_1nfqxmo"
+    },
+    {
+      "label": "File picker",
+      "type": "filepicker",
+      "layout": {
+        "row": "Row_1nyrwyz",
+        "columns": null
+      },
+      "id": "Field_1gh0l71",
+      "key": "uploadFile",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Target path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1b8sgs3",
+        "columns": null
+      },
+      "id": "Field_140wrfe",
+      "key": "targetPath",
+      "defaultValue": "/",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.47.0"
+  },
+  "schemaVersion": 19,
+  "id": "Form_NCA_NextcloudFileUploadForm",
+  "type": "default",
+  "versionTag": "1.0.0"
+}

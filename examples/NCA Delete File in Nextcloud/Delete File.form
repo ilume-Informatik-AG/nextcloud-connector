@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "text": "Delete File Request",
+      "type": "text",
+      "layout": {
+        "row": "Row_1i7nmn1",
+        "columns": null
+      },
+      "id": "Field_0rk6x1z"
+    },
+    {
+      "label": "File Path",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1lmh9yh",
+        "columns": null
+      },
+      "id": "Field_1axx045",
+      "key": "filePath",
+      "defaultValue": "/"
+    },
+    {
+      "label": "File Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_03k143c",
+        "columns": null
+      },
+      "id": "Field_0gd3bwv",
+      "key": "fileName"
+    }
+  ],
+  "type": "default",
+  "id": "Form_NCA_DeleteFileForm",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.47.0"
+  },
+  "schemaVersion": 19
+}

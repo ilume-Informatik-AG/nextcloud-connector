@@ -1,0 +1,20 @@
+# Local dev profile for running the connector standalone (Spring Boot RuntimeApplication)
+# against a full local Camunda 8 Platform stack (Zeebe + Identity/Keycloak, e.g. the official
+# camunda-platform docker-compose setup) instead of the auth-less "c8run" runtime.
+#
+# Activate with: mvn -pl nextcloud-connector-outbound spring-boot:run -Dspring-boot.run.profiles=local
+#
+# Nextcloud secrets (SECRETS_NCA_NEXTCLOUD_APP_URL/_USER/_PASSWORD) are not embedded here on
+# purpose since this profile is meant for a shared/less throwaway local stack; export them as
+# real environment variables before starting, or add a git-ignored
+# application-local-secrets.yml and reference it via spring.config.import.
+
+camunda:
+  client:
+    auth:
+      method: oidc
+      client-id: connectors
+      client-secret: demo-connectors-secret
+      token-url: http://localhost:18080/auth/realms/camunda-platform/protocol/openid-connect/token
+    grpc-address: http://localhost:26500
+    rest-address: http://localhost:8080
