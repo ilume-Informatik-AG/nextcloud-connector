@@ -70,7 +70,7 @@
                 <configuration>
                     <connectors>
                         <connector>
-                            <connectorClass>de.ilume.nextcloud.inbound.NextcloudWebhookConnector</connectorClass>
+                            <connectorClass>de.ilume.nextcloud.inbound.NextcloudWebhookExecutable</connectorClass>
                         </connector>
                     </connectors>
                 </configuration>

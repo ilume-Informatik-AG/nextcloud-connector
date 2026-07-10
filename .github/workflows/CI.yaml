@@ -15,8 +15,5 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
-      # nextcloud-connector-inbound has no source yet (see CLAUDE.md); its
-      # element-template-generator-maven-plugin execution fails on an empty module. Once it has a
-      # NextcloudWebhookConnector class, switch this back to a plain `mvn clean verify` reactor build.
-      - name: Build & verify outbound module
-        run: mvn --batch-mode -pl nextcloud-connector-outbound -am clean verify
+      - name: Build & verify
+        run: mvn --batch-mode clean verify

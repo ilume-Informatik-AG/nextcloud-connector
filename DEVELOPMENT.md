@@ -18,6 +18,33 @@ mvn -pl nextcloud-connector-outbound spring-boot:run -Dspring-boot.run.profiles=
 For a full local Camunda 8 Platform stack (Zeebe + Identity/Keycloak, OIDC auth) instead, use the
 `local` profile and export `SECRETS_NCA_NEXTCLOUD_APP_URL`/`_USER`/`_PASSWORD` yourself first.
 
+## Nextcloud background jobs / cron (required for the inbound webhook connector)
+
+`docker-compose.yaml` also runs a `cron` service (same `nextcloud` image, `entrypoint: /cron.sh`)
+alongside `app`. This is required for anything that depends on Nextcloud's background job queue —
+most notably `webhook_listeners`, which delivers webhooks **asynchronously via a background job**,
+not synchronously when the triggering event happens (see
+[`nextcloud-connector-inbound/README.md`](nextcloud-connector-inbound/README.md)). Without a
+running cron, Nextcloud falls back to "AJAX" mode, which only executes due jobs when an
+authenticated browser page load happens to hit `index.php` — something none of the outbound
+connector, `curl`, or `http/webhooks.http` ever do. Symptom if this regresses: a webhook shows up
+fine in `GET .../webhooks` (registration succeeded) but nothing ever arrives at the target URL,
+while `oc_jobs` quietly accumulates rows with `last_run = 0`.
+
+If you ever recreate the Nextcloud volume from scratch or diagnose delivery issues, switch Nextcloud
+to real cron mode once (AJAX-triggered runs can otherwise race with the dedicated cron container):
+
+```bash
+docker compose exec --user www-data app php occ background:cron
+```
+
+To force an immediate run instead of waiting up to 5 minutes for the next scheduled tick (e.g.
+while testing a webhook registration):
+
+```bash
+docker compose exec --user www-data app php cron.php
+```
+
 ## Developing & Debugging in IntelliJ IDEA
 
 1. **Open the project**: `File > Open...` and select the repo root `pom.xml` (or the root folder).

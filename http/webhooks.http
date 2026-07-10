@@ -1,0 +1,48 @@
+### GET List webhooks
+GET {{nextcloud.url}}/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks
+Authorization: Basic {{nextcloud.user}} {{nextcloud.password}}
+OCS-APIRequest: true
+Accept: application/json
+
+### GET Webhook by ID
+@webhookId = 1
+GET {{nextcloud.url}}/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks/{{webhookId}}
+Authorization: Basic {{nextcloud.user}} {{nextcloud.password}}
+OCS-APIRequest: true
+Accept: application/json
+
+### Register new webhook
+POST {{nextcloud.url}}/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks
+Authorization: Basic {{nextcloud.user}} {{nextcloud.password}}
+OCS-APIRequest: true
+Content-Type: application/json
+Accept: application/json
+
+{
+  "httpMethod": "POST",
+  "uri": "{{webhook.url}}",
+  "event": "OCP\\Files\\Events\\Node\\NodeCreatedEvent",
+  "headers": { "X-Webhook-Secret": "{{webhook.secret}}" }
+}
+
+### Update webhook (send the full new definition, same shape as create)
+@webhookId = 1
+POST {{nextcloud.url}}/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks/{{webhookId}}
+Authorization: Basic {{nextcloud.user}} {{nextcloud.password}}
+OCS-APIRequest: true
+Content-Type: application/json
+Accept: application/json
+
+{
+  "httpMethod": "POST",
+  "uri": "{{webhook.url}}",
+  "event": "OCP\\Files\\Events\\Node\\NodeCreatedEvent",
+  "headers": { "X-Webhook-Secret": "{{webhook.secret}}" }
+}
+
+### Delete webhook
+@webhookId = 1
+DELETE {{nextcloud.url}}/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks/{{webhookId}}
+Authorization: Basic {{nextcloud.user}} {{nextcloud.password}}
+OCS-APIRequest: true
+Accept: application/json

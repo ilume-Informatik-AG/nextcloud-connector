@@ -47,3 +47,4 @@ build/
 .claude/
 CLAUDE.md
 todo.md
+/http/http-client.private.env.json
