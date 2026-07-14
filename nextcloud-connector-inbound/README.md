@@ -1,7 +1,10 @@
-# Nextcloud Inbound Webhook Connector
+# Nextcloud Inbound Connector
 
-Receives Nextcloud file events (created, updated, deleted, renamed, copied, touched) as an
-inbound (webhook) Camunda 8 connector and starts/correlates a BPMN process for each event.
+A Camunda 8 inbound (webhook) connector that receives Nextcloud file events (created, updated,
+deleted, renamed, copied, touched) and starts/correlates a BPMN process for each event.
+
+See the [root README](../README.md) for compatibility requirements, how Camunda secrets are
+resolved, and an overview of the other connector in this repo.
 
 This connector is built against Nextcloud's **"Webhook Listeners" app** (`webhook_listeners`,
 bundled with Nextcloud server since v30, enabled by default in recent versions). It does **not**
@@ -19,6 +22,8 @@ third-party `webhooks` app (kffl/nextcloud-webhooks) some older setups use.
 * [Webhook Listeners admin manual](https://docs.nextcloud.com/server/latest/admin_manual/webhook_listeners/index.html) — app overview, event classes, `eventFilter` syntax.
 * [Webhook Listeners OCS API reference](https://docs.nextcloud.com/server/latest/developer_manual/_static/openapi.html#/operations/webhook_listeners-webhooks-index) — full request/response schema for the `webhooks` endpoint used below.
 
+---
+
 ## Requirements
 
 * Nextcloud with the `webhook_listeners` app enabled:
@@ -31,10 +36,13 @@ third-party `webhooks` app (kffl/nextcloud-webhooks) some older setups use.
   install). Against this repo's local dev docker-compose setup, run it inside the `app` container
   instead: `docker compose exec --user www-data app php occ app:enable webhook_listeners`.
 * A Nextcloud account with admin (or delegated admin) rights, to call the OCS API.
-* The connector's inbound URL for your deployment — see the root [`README.md`](../README.md)
-  "Deployment Options" for how the standalone service vs. a shared Connector Runtime expose that
-  URL. The `Webhook ID` you choose below becomes part of it, e.g.
+* The connector's inbound URL for your deployment — see the outbound connector's
+  [`README.md`](../nextcloud-connector-outbound/README.md#deployment-options) "Deployment Options"
+  for how the standalone service vs. a shared Connector Runtime expose that URL (the same two
+  deployment modes apply here). The `Webhook ID` you choose below becomes part of it, e.g.
   `https://runtime-host/inbound/<webhook-id>`.
+
+---
 
 ## 1. Register the webhook in Nextcloud
 
@@ -56,7 +64,7 @@ curl -u admin:app-password -X POST \
 
 Or use the wrapper script under [`scripts/register-webhook.sh`](../scripts/register-webhook.sh)
 (env vars `NEXTCLOUD_URL`/`NEXTCLOUD_ADMIN_USER`/`NEXTCLOUD_ADMIN_PASSWORD` default to this repo's
-local dev docker-compose credentials, see the root README's "Local development" section):
+local dev docker-compose credentials, see [`DEVELOPMENT.md`](../DEVELOPMENT.md)):
 
 ```bash
 ./scripts/register-webhook.sh create \
@@ -94,10 +102,15 @@ delivered to the BPMN process, just logged with an `unknown (...)` tag since the
 model its fields yet.
 
 > [!NOTE]
-> Only `NodeCreatedEvent`'s payload shape (`event.node.id` / `event.node.path`) is confirmed
-> against Nextcloud's own documentation. The other event classes are assumed to follow the same
-> `{id, path}` node shape — verify against a real payload for your Nextcloud version before relying
-> on additional fields in a FEEL expression.
+> `NodeCreatedEvent`'s payload shape (`event.node.id` / `event.node.path`) is confirmed against
+> Nextcloud's own documentation. The single-node vs. `source`/`target` split for the other event
+> classes is corroborated by Nextcloud server's own test suite
+> (`tests/lib/Files/Node/HookConnectorTest.php`, which asserts `getNode()` for single-node events and
+> `getSource()`/`getTarget()` for copy/rename) — but no raw webhook JSON example beyond
+> `NodeCreatedEvent` has been directly observed, so still verify against a real payload for your
+> Nextcloud version before relying on additional fields in a FEEL expression.
+
+---
 
 ## 2. Verify the registration
 
@@ -108,6 +121,8 @@ curl -u admin:app-password -H "OCS-APIRequest: true" \
   https://nextcloud.example.com/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks/<id>
 ```
 
+---
+
 ## 3. Configure the BPMN element (Camunda Modeler)
 
 Add a "Nextcloud Webhook Connector" start/message-start/boundary/intermediate-catch event and set:
@@ -116,10 +131,12 @@ Add a "Nextcloud Webhook Connector" start/message-start/boundary/intermediate-ca
 | :--- | :--- |
 | **Webhook ID** | The last path segment of the `uri` you registered above, e.g. `my-webhook-id`. |
 | **Auth header name** | The header key you used in `headers`, e.g. `X-Webhook-Secret` (default if left blank). |
-| **Expected header value** | The header value you used in `headers`. Supports FEEL, so reference a secret instead of hardcoding it, e.g. `secrets.NEXTCLOUD_WEBHOOK_SECRET` — see the root README's "Configuration" section for how `secrets.<NAME>` resolves at runtime. Leave empty to disable the header check (not recommended). |
+| **Expected header value** | The header value you used in `headers`. Supports FEEL, so reference a secret instead of hardcoding it, e.g. `secrets.NEXTCLOUD_WEBHOOK_SECRET` — see the root README's [Authentication & Secrets](../README.md#authentication--secrets) section for how `secrets.<NAME>` resolves at runtime. Leave empty to disable the header check (not recommended). |
 
 Leaving **Expected header value** empty accepts any request to that URL, so only skip it for local/
 trusted-network testing.
+
+---
 
 ## 4. Update or remove a webhook later
 
@@ -137,6 +154,8 @@ curl -u admin:app-password -X DELETE -H "OCS-APIRequest: true" \
 
 If you rotate the secret, update both sides together: the `headers` value in Nextcloud and the
 **Expected header value** on the BPMN element (or the secret it references).
+
+---
 
 ## Payload received by the connector
 
