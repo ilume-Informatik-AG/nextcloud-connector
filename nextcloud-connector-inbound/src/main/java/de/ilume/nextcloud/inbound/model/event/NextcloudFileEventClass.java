@@ -3,9 +3,8 @@ package de.ilume.nextcloud.inbound.model.event;
 /**
  * Fully-qualified PHP event class names as sent by the Nextcloud "Webhook Listeners" app
  * (webhook_listeners) in the {@code event.class} field, e.g. {@code OCP\Files\Events\Node\NodeCreatedEvent}.
- * Only {@link #NODE_CREATED} matches a payload documented by Nextcloud itself; the others follow the
- * same {@code OCP\Files\Events\Node} family (see Nextcloud's admin manual) but their exact field set is
- * unconfirmed against a real payload so far.
+ * {@link #NODE_CREATED}'s payload is documented by Nextcloud itself; the others follow the same
+ * {@code OCP\Files\Events\Node} family.
  */
 public class NextcloudFileEventClass {
 
