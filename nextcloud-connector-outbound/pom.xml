@@ -25,10 +25,6 @@
             <groupId>com.github.lookfirst</groupId>
             <artifactId>sardine</artifactId>
         </dependency>
-        <!-- provided: bundled into the standalone *-exec.jar by spring-boot-maven-plugin
-             (which includes provided-scope deps), but left out of the *-with-dependencies.jar
-             shaded by maven-shade-plugin (which does not) - a shared Connector Runtime already
-             brings its own Spring Boot/Camunda runtime, so it must not be duplicated there. -->
         <dependency>
             <groupId>io.camunda.connector</groupId>
             <artifactId>spring-boot-starter-camunda-connectors</artifactId>
@@ -47,6 +43,7 @@
         <dependency>
             <groupId>io.camunda.connector</groupId>
             <artifactId>connector-validation</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

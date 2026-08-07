@@ -89,8 +89,11 @@ docker compose exec --user www-data app php cron.php
    matches CI expectations.
 
 > [!NOTE]
-> Only `nextcloud-connector-outbound` has real source to run/debug; `nextcloud-connector-inbound`
-> has no connector class yet (see Known Issues in `CLAUDE.md`), so there's nothing to launch there.
+> `nextcloud-connector-inbound` can be run/debugged the same way as Option 2 above — main class
+> `de.ilume.nextcloud.inbound.RuntimeApplication`, classpath of module
+> `nextcloud-connector-inbound`. It has no `c8run`/`local` profile files yet, so it always uses the
+> base `application.yml` (port `9899`, no-auth `c8run`-style Camunda client settings). See
+> `nextcloud-connector-inbound/README.md` for registering a webhook against it once it's running.
 
 ## Deploying the Example Processes
 

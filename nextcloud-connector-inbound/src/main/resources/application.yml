@@ -1,0 +1,25 @@
+# Base configuration for standalone mode only (RuntimeApplication as a Spring Boot app).
+#
+# When this connector is mounted into an existing shared Camunda Connector Runtime instead, no
+# Spring context is started for this jar, so this file is never read there - the host runtime has
+# its own application.yml and already exposes the /inbound/<webhook-id> endpoint.
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 9899
+
+camunda:
+  client:
+    auth:
+      method: none
+    grpc-address: http://localhost:26500
+    rest-address: http://localhost:8080
+  connector:
+    secret-provider:
+      console:
+        enabled: false
+      environment:
+        prefix: SECRETS_

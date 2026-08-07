@@ -28,6 +28,12 @@
         <dependency>
             <groupId>io.camunda.connector</groupId>
             <artifactId>spring-boot-starter-camunda-connectors</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-validation</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Tests -->
@@ -64,6 +70,10 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>io.camunda.connector</groupId>
                 <artifactId>element-template-generator-maven-plugin</artifactId>
