@@ -17,3 +17,36 @@ jobs:
           cache: 'maven'
       - name: Build & verify
         run: mvn --batch-mode clean verify
+
+      - name: Smoke test standalone boot (exec jars)
+        run: |
+          set -e
+          for module in nextcloud-connector-outbound nextcloud-connector-inbound; do
+            jar=$(find "$module/target" -maxdepth 1 -name "*-exec.jar")
+            echo "=== Booting $jar ==="
+            log="$(mktemp)"
+            java -jar "$jar" > "$log" 2>&1 &
+            pid=$!
+
+            started=false
+            for _ in $(seq 1 30); do
+              if grep -q "Started RuntimeApplication" "$log"; then
+                started=true
+                break
+              fi
+              if ! kill -0 "$pid" 2>/dev/null; then
+                break
+              fi
+              sleep 1
+            done
+
+            kill "$pid" 2>/dev/null || true
+            wait "$pid" 2>/dev/null || true
+
+            if [ "$started" != "true" ]; then
+              echo "::error::$module's exec.jar failed to boot within 30s"
+              cat "$log"
+              exit 1
+            fi
+            echo "$module exec.jar booted successfully"
+          done
