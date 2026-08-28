@@ -84,9 +84,11 @@ docker run -d \
   -e SECRETS_NCA_NEXTCLOUD_APP_PASSWORD=my-app-password \
   camunda-nextcloud-connector
 ```
-The released image is instead built/pushed by CI via Cloud Native Buildpacks
-(`mvn -pl nextcloud-connector-outbound -am package -Pbuild-image`), triggered by pushing a version
-tag — see `CLAUDE.md` for the release process.
+CI builds/pushes this same Dockerfile as the release image, triggered by pushing a version tag.
+Using this Dockerfile (rather than the Cloud Native
+Buildpacks `build-image` profile, which is still available for manual/local builds) is what makes
+the `-Dloader.path=/opt/app` mount above work on the released image too: Buildpacks bakes the
+runtime classpath in at build time and never reads `/opt/app` at all.
 
 ---
 

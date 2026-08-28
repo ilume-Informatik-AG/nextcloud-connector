@@ -55,9 +55,10 @@ jobs:
         run: echo "value=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
       - name: Build & push image
-        run: >
-          mvn -B -pl ${{ matrix.module }} -am package -Pbuild-image
-          -Dimage.registry=${{ steps.registry.outputs.value }}
+        run: |
+          IMAGE="${{ steps.registry.outputs.value }}/${{ matrix.module }}:${{ steps.version.outputs.camunda_version }}-${{ steps.version.outputs.connector_version }}"
+          docker build -t "$IMAGE" -f ${{ matrix.module }}/Dockerfile ${{ matrix.module }}
+          docker push "$IMAGE"
 
       - name: Upload jars to Release
         uses: softprops/action-gh-release@v2
