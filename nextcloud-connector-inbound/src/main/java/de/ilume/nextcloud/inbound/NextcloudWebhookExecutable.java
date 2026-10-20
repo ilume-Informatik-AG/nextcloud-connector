@@ -48,9 +48,9 @@ import java.util.Locale;
         },
         defaultResultExpression =
                 "{\n"
-                        + "  event: request.body.event.class\n"
-                        + "  path: request.body.event.node.path\n"
-                        + "  fileId: request.body.event.node.id\n"
+                        + "  event: request.body.event.class,\n"
+                        + "  path: request.body.event.node.path,\n"
+                        + "  fileId: request.body.event.node.id,\n"
                         + "  user: request.body.user.uid\n"
                         + "}")
 public class NextcloudWebhookExecutable implements WebhookConnectorExecutable {
